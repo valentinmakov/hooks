@@ -1,0 +1,118 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {
+        "ordered-imports": [
+            true,
+            {
+                "import-sources-order": "lowercase-first"
+            }
+        ],
+        "quotemark": [
+            true,
+            "single",
+            "jsx-double",
+            "avoid-escape"
+        ],
+        "no-consecutive-blank-lines": false
+    },
+    "rules": {
+        "no-non-null-assertion": true,
+        "quotemark": [
+            true,
+            "single",
+            "jsx-double",
+            "avoid-escape"
+        ],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            },
+            {
+                "call-signature": "onespace",
+                "index-signature": "onespace",
+                "parameter": "onespace",
+                "property-declaration": "onespace",
+                "variable-declaration": "onespace"
+            }
+        ],
+        "max-line-length": [false, 160],
+        "interface-over-type-literal": false,
+        "object-literal-shorthand": false,
+        "object-literal-sort-keys": false,
+        "semicolon": [true, "never"],
+        "ordered-imports": false,
+        "no-trailing-whitespace": [true, "ignore-comments"],
+        "no-consecutive-blank-lines": true,
+        "no-any": false,
+        "no-empty-interface": true,
+        "no-inferred-empty-object-type": true,
+        "no-internal-module": true,
+        "prefer-const": false,
+        "member-access": false,
+        "use-isnan": true,
+        "array-type": false,
+        "prefer-for-of": false,
+        "trailing-comma": false,
+        "one-line": [
+            true,
+            "check-catch",
+            "check-else",
+            "check-finally",
+            "check-whitespace"
+        ],
+        "ban-types": [true, ["Object", "Avoid using the `Object` type. Did you mean `object`?"],
+            ["Boolean", "Avoid using the `Boolean` type. Did you mean `boolean`?"],
+            ["Number", "Avoid using the `Number` type. Did you mean `number`?"],
+            ["String", "Avoid using the `String` type. Did you mean `string`?"],
+            ["Symbol", "Avoid using the `Symbol` type.  Did you mean `symbol`?"]],
+        "no-reference": false,
+        "max-classes-per-file": [false, 1, "exclude-class-expressions"],
+        "no-console": [
+            true,
+            "error",
+            "info",
+            "log",
+            "warn",
+            "trace",
+            "debug",
+            "table",
+            "assert",
+            "clear",
+            "count",
+            "dir",
+            "dirxml",
+            "exception",
+            "group",
+            "groupCollapsed",
+            "groupEnd",
+            "markTimeline",
+            "msIsIndependentlyComposed",
+            "profile",
+            "profileEnd",
+            "select",
+            "time",
+            "timeEnd",
+            "timeStamp",
+            "timeline",
+            "timelineEnd"
+        ]
+    },
+    "linterOptions": {
+        "exclude": [
+            "src/bh-alpha-models/*",
+            "src/bh-alpha-models/validator/*",
+            "build",
+            "node_modules",
+            "ios"
+        ]
+    },
+    "rulesDirectory": []
+}
