@@ -1,11 +1,9 @@
 {
-  "name": "Hooks",
+  "name": "hooks",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
+    "renewIos": "rm -rf node_modules/; rm package-lock.json; npm i; cd ios/; rm Podfile.lock; rm -rf Pods/; pod install; cd ../",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -17,11 +15,16 @@
     "@babel/core": "7.9.6",
     "@babel/runtime": "7.9.6",
     "@react-native-community/eslint-config": "0.0.5",
+    "@types/react-native": "0.62.7",
+    "@typescript-eslint/eslint-plugin": "2.29.0",
+    "@typescript-eslint/parser": "2.29.0",
+    "@types/jest": "24.0.19",
     "babel-jest": "24.9.0",
-    "eslint": "6.8.0",
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.58.0",
-    "react-test-renderer": "16.11.0"
+    "react-test-renderer": "16.11.0",
+    "tslint": "6.1.2",
+    "typescript": "3.8.3"
   },
   "jest": {
     "preset": "react-native"
