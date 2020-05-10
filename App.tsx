@@ -19,11 +19,13 @@ interface IVacancy {
   id: string,
   name: string,
   company?: string,
+  city?: string,
 }
 
 interface IItemProps {
   name: string,
   company?: string,
+  city?: string,
 }
 
 interface IStyles {
@@ -45,6 +47,11 @@ const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
       {
         props.company
           ? <Text>{`Employer: ${props.company}`}</Text>
+          : null
+      }
+      {
+        props.city
+          ? <Text>{`City: ${props.city}`}</Text>
           : null
       }
     </View>
@@ -74,6 +81,7 @@ const App: React.SFC = (): JSX.Element => {
                   id: item.id,
                   name: item.name,
                   company: item?.employer?.name,
+                  city: item?.area?.name,
                 }
               })
 
@@ -111,7 +119,14 @@ const App: React.SFC = (): JSX.Element => {
         <FlatList
           ItemSeparatorComponent={ItemSeparator}
           data={vacancyList}
-          renderItem={({item}) => <Item name={item.name} company={item.company}/>}
+          renderItem={
+            ({item}) => (
+              <Item
+                name={item.name}
+                company={item.company}
+                city={item.city}
+              />
+          )}
           keyExtractor={item => item.id}
         />
       </View>
