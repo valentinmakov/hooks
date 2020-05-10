@@ -6,14 +6,20 @@ import React,
 
 import {
   Button,
+  StyleSheet,
   Text,
   TextInput,
   View,
+  ViewStyle,
 } from 'react-native'
+
+interface IStyles {
+  textInput: ViewStyle,
+}
 
 const queryUrl: string = 'https://api.hh.ru/vacancies?text='
 
-const App = (): React.ReactElement<View> => {
+const App: React.SFC = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>('')
 
   const [submitSearchValue, setSubmitSearchValue] = useState<string>(searchValue)
@@ -43,9 +49,10 @@ const App = (): React.ReactElement<View> => {
       <Text>Type in search query:</Text>
       <TextInput
         value={searchValue}
-        clearButtonMode={'unless-editing'}
+        clearButtonMode={'while-editing'}
         onChangeText={(newSearchValue: string) => setSearchValue(newSearchValue)}
         placeholder={'Search query...'}
+        style={styles.textInput}
       />
       <Button
         title={'Submit search value'}
@@ -55,5 +62,18 @@ const App = (): React.ReactElement<View> => {
     </View>
   )
 }
+
+const styles: any = StyleSheet.create<IStyles>({
+  textInput: {
+    flexDirection: 'row',
+    width: '80%',
+    height: 25,
+    paddingHorizontal: 5,
+    marginVertical: 10,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 4,
+  },
+})
 
 export default App
