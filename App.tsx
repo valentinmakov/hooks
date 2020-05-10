@@ -6,6 +6,7 @@ import React,
 
 import {
   Button,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -14,6 +15,8 @@ import {
 } from 'react-native'
 
 interface IStyles {
+  safeAreaContainer: ViewStyle,
+  container: ViewStyle,
   textInput: ViewStyle,
 }
 
@@ -45,25 +48,35 @@ const App: React.SFC = (): JSX.Element => {
   )
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Type in search query:</Text>
-      <TextInput
-        value={searchValue}
-        clearButtonMode={'while-editing'}
-        onChangeText={(newSearchValue: string) => setSearchValue(newSearchValue)}
-        placeholder={'Search query...'}
-        style={styles.textInput}
-      />
-      <Button
-        title={'Submit search value'}
-        onPress={() => setSubmitSearchValue(searchValue)}
-      />
-      <Text>{`Vacancy name: ${vacancy}`}</Text>
-    </View>
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <View style={styles.container}>
+        <Text>Type in search query:</Text>
+        <TextInput
+          value={searchValue}
+          clearButtonMode={'while-editing'}
+          onChangeText={(newSearchValue: string) => setSearchValue(newSearchValue)}
+          placeholder={'Search query...'}
+          style={styles.textInput}
+        />
+        <Button
+          title={'Submit search value'}
+          onPress={() => setSubmitSearchValue(searchValue)}
+        />
+        <Text>{`Vacancy name: ${vacancy}`}</Text>
+      </View>
+    </SafeAreaView>
   )
 }
 
-const styles: any = StyleSheet.create<IStyles>({
+const styles = StyleSheet.create<IStyles>({
+  safeAreaContainer: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 30,
+  },
   textInput: {
     flexDirection: 'row',
     width: '80%',
