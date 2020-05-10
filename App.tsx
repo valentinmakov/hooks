@@ -29,6 +29,7 @@ interface IStyles {
   container: ViewStyle,
   textInput: ViewStyle,
   button: ViewStyle,
+  separator: ViewStyle,
 }
 
 const queryUrl: string = 'https://api.hh.ru/vacancies?text='
@@ -39,6 +40,10 @@ const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
       <Text>{props.name}</Text>
     </View>
   )
+}
+
+const ItemSeparator: React.SFC = (): JSX.Element => {
+  return <View style={styles.separator}/>
 }
 
 const App: React.SFC = (): JSX.Element => {
@@ -88,6 +93,7 @@ const App: React.SFC = (): JSX.Element => {
           <Text>Submit search value</Text>
         </TouchableOpacity>
         <FlatList
+          ItemSeparatorComponent={ItemSeparator}
           data={vacancyList}
           renderItem={({item}) => <Item name={item.name}/>}
           keyExtractor={item => item.id}
@@ -121,6 +127,11 @@ const styles = StyleSheet.create<IStyles>({
     paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 6,
+  },
+  separator: {
+    width: '100%',
+    height: 1,
+    backgroundColor: 'black',
   },
 })
 
