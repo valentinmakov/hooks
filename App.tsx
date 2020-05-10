@@ -104,7 +104,7 @@ const App: React.SFC = (): JSX.Element => {
   )
 }
 
-const styles = StyleSheet.create<IStyles>({
+const styles: IStyles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
   },
