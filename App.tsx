@@ -5,6 +5,7 @@ import React,
 } from 'react'
 
 import {
+  FlatList,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -13,6 +14,15 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+
+interface IVacancy {
+  id: string,
+  name: string,
+}
+
+interface IItemProps {
+  name: string,
+}
 
 interface IStyles {
   safeAreaContainer: ViewStyle,
@@ -23,12 +33,20 @@ interface IStyles {
 
 const queryUrl: string = 'https://api.hh.ru/vacancies?text='
 
+const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
+  return (
+    <View>
+      <Text>{props.name}</Text>
+    </View>
+  )
+}
+
 const App: React.SFC = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>('')
 
   const [submitSearchValue, setSubmitSearchValue] = useState<string>(searchValue)
 
-  const [vacancy, setVacancy] = useState<string>('')
+  const [vacancyList, setVacancyList] = useState<IVacancy[]>([])
 
   useEffect(
     (): void => {
@@ -37,10 +55,14 @@ const App: React.SFC = (): JSX.Element => {
           .then((response: Response): Promise<any> => response.json())
           .then((data: any): void => {
             if (data && data.items && Array.isArray(data.items)) {
-              const firstVacancy: any = data.items[0]
-              if (firstVacancy.name && typeof firstVacancy.name === 'string' && firstVacancy.name.length > 0) {
-                setVacancy(firstVacancy.name)
-              }
+              const itemList: IVacancy[] = data.items.map((item: any): IVacancy => {
+                return {
+                  id: item.id,
+                  name: item.name,
+                }
+              })
+
+              setVacancyList(itemList)
             }
           })
       }
@@ -65,7 +87,11 @@ const App: React.SFC = (): JSX.Element => {
         >
           <Text>Submit search value</Text>
         </TouchableOpacity>
-        <Text>{`Vacancy name: ${vacancy}`}</Text>
+        <FlatList
+          data={vacancyList}
+          renderItem={({item}) => <Item name={item.name}/>}
+          keyExtractor={item => item.id}
+        />
       </View>
     </SafeAreaView>
   )
