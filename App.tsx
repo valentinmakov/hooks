@@ -29,6 +29,7 @@ interface IStyles {
   container: ViewStyle,
   textInput: ViewStyle,
   button: ViewStyle,
+  itemContainer: ViewStyle,
   separator: ViewStyle,
 }
 
@@ -36,7 +37,7 @@ const queryUrl: string = 'https://api.hh.ru/vacancies?text='
 
 const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
   return (
-    <View>
+    <View style={styles.itemContainer}>
       <Text>{props.name}</Text>
     </View>
   )
@@ -127,6 +128,9 @@ const styles = StyleSheet.create<IStyles>({
     paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 6,
+  },
+  itemContainer: {
+    paddingVertical: 10,
   },
   separator: {
     width: '100%',
