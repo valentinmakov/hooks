@@ -5,11 +5,11 @@ import React,
 } from 'react'
 
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native'
@@ -18,6 +18,7 @@ interface IStyles {
   safeAreaContainer: ViewStyle,
   container: ViewStyle,
   textInput: ViewStyle,
+  button: ViewStyle,
 }
 
 const queryUrl: string = 'https://api.hh.ru/vacancies?text='
@@ -58,10 +59,12 @@ const App: React.SFC = (): JSX.Element => {
           placeholder={'Search query...'}
           style={styles.textInput}
         />
-        <Button
-          title={'Submit search value'}
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => setSubmitSearchValue(searchValue)}
-        />
+        >
+          <Text>Submit search value</Text>
+        </TouchableOpacity>
         <Text>{`Vacancy name: ${vacancy}`}</Text>
       </View>
     </SafeAreaView>
@@ -86,6 +89,12 @@ const styles = StyleSheet.create<IStyles>({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 4,
+  },
+  button: {
+    backgroundColor: '#d3d3d3',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 6,
   },
 })
 
