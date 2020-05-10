@@ -29,6 +29,7 @@ interface IItemProps {
 interface IStyles {
   safeAreaContainer: ViewStyle,
   container: ViewStyle,
+  centeredContainer: ViewStyle,
   textInput: ViewStyle,
   button: ViewStyle,
   itemContainer: ViewStyle,
@@ -87,20 +88,26 @@ const App: React.SFC = (): JSX.Element => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        <Text>Type in search query:</Text>
-        <TextInput
-          value={searchValue}
-          clearButtonMode={'while-editing'}
-          onChangeText={(newSearchValue: string) => setSearchValue(newSearchValue)}
-          placeholder={'Search query...'}
-          style={styles.textInput}
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setSubmitSearchValue(searchValue)}
-        >
-          <Text>Submit search value</Text>
-        </TouchableOpacity>
+        <View style={styles.centeredContainer}>
+          <Text>Type in search query:</Text>
+        </View>
+        <View style={styles.centeredContainer}>
+          <TextInput
+            value={searchValue}
+            clearButtonMode={'while-editing'}
+            onChangeText={(newSearchValue: string) => setSearchValue(newSearchValue)}
+            placeholder={'Search query...'}
+            style={styles.textInput}
+          />
+        </View>
+        <View style={styles.centeredContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setSubmitSearchValue(searchValue)}
+          >
+            <Text>Submit search value</Text>
+          </TouchableOpacity>
+        </View>
         <FlatList
           ItemSeparatorComponent={ItemSeparator}
           data={vacancyList}
@@ -118,8 +125,13 @@ const styles: IStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'stretch',
     paddingTop: 30,
+    paddingHorizontal: 20,
+  },
+  centeredContainer: {
+    width: '100%',
+    alignItems: 'center',
   },
   textInput: {
     flexDirection: 'row',
