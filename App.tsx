@@ -97,9 +97,12 @@ const App: React.SFC = (): JSX.Element => {
 
   const [error, setError] = useState<IError | null>(null)
 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   useEffect(
     (): void => {
       if (submitSearchValue.length > 0) {
+        setIsLoading(true)
         const pageParam: string = currentPage === 0 || currentPage >= pageTotalCount ? '' : `&page=${currentPage}`
 
         fetch(`${queryUrl}${submitSearchValue}${pageParam}`)
@@ -132,8 +135,10 @@ const App: React.SFC = (): JSX.Element => {
                 setIsRefreshing(false)
               }
 
+              setIsLoading(false)
               setVacancyList([...vacancyList, ...itemList])
             } else {
+              setIsLoading(false)
               setError({
                 code: 'Unknown',
                 message: 'No data',
@@ -146,6 +151,7 @@ const App: React.SFC = (): JSX.Element => {
               message: e.message ? e.message : 'Unknown error',
             }
 
+            setIsLoading(false)
             setError(formattedError)
           })
       }
@@ -204,7 +210,9 @@ const App: React.SFC = (): JSX.Element => {
         {
           error === null
             ? vacancyList.length === 0
-              ? <Text>Nothing to show</Text>
+              ? isLoading
+                ? <Text>Loading...</Text>
+                : <Text>Nothing to show</Text>
               : <FlatList
                 ItemSeparatorComponent={ItemSeparator}
                 data={vacancyList}
