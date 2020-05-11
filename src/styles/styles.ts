@@ -36,6 +36,7 @@ const styles: IStyles = StyleSheet.create({
       paddingHorizontal: 15,
       paddingVertical: 5,
       borderRadius: 6,
+      marginBottom: 10,
     },
     itemContainer: {
       paddingVertical: 10,
@@ -51,6 +52,9 @@ const styles: IStyles = StyleSheet.create({
       width: 40,
       height: 40,
       marginHorizontal: 10,
+    },
+    vacancyTitle: {
+        fontWeight: '700',
     },
   })
 

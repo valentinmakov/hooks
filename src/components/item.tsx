@@ -15,7 +15,7 @@ const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
     return (
       <View style={styles.itemContainer}>
         <View style={styles.descriptionContainer}>
-          <Text>{props.name}</Text>
+          <Text style={styles.vacancyTitle}>{props.name}</Text>
           {
             props.company
               ? <Text>{`Employer: ${props.company}`}</Text>

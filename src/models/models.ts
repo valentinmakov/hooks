@@ -38,4 +38,5 @@ export interface IStyles {
     itemContainer: ViewStyle,
     separator: ViewStyle,
     image: ImageStyle,
+    vacancyTitle: ViewStyle,
 }
