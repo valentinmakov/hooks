@@ -6,7 +6,6 @@ import React,
 
 import {
   FlatList,
-  Image,
   SafeAreaView,
   Text,
   TextInput,
@@ -14,79 +13,19 @@ import {
   View,
 } from 'react-native'
 
+import Error from './components/error'
+import Item from './components/item'
+import ItemSeparator from './components/itemSeparator'
+
 import styles from './styles/styles'
 
-interface IVacancy {
-  id: string,
-  name: string,
-  company?: string,
-  city?: string,
-  imageUrl?: string,
-}
-
-interface IItemProps {
-  name: string,
-  company?: string,
-  city?: string,
-  imageUrl?: string,
-}
-
-interface IErrorProps {
-  code: string,
-  message: string,
-}
-
-interface IError {
-  code: string,
-  message: string,
-}
+import {
+  IError,
+  IItemProps,
+  IVacancy,
+} from './models/models'
 
 const queryUrl: string = 'https://api.hh.ru/vacancies?text='
-
-const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
-  return (
-    <View style={styles.itemContainer}>
-      <View style={styles.descriptionContainer}>
-        <Text>{props.name}</Text>
-        {
-          props.company
-            ? <Text>{`Employer: ${props.company}`}</Text>
-            : null
-        }
-        {
-          props.city
-            ? <Text>{`City: ${props.city}`}</Text>
-            : null
-        }
-      </View>
-      {
-        props.imageUrl
-          ? <View>
-            <Image
-              source={{uri: props.imageUrl}}
-              style={styles.image}
-              resizeMode={'contain'}
-            />
-          </View>
-          : null
-      }
-    </View>
-  )
-}
-
-const ItemSeparator: React.SFC = (): JSX.Element => {
-  return <View style={styles.separator}/>
-}
-
-const Error: React.SFC<IErrorProps> = (props: IErrorProps): JSX.Element => {
-  return (
-    <View>
-      <Text>Error</Text>
-      <Text>{`Code: ${props.code}`}</Text>
-      <Text>{`Message: ${props.message}`}</Text>
-    </View>
-  )
-}
 
 const App: React.SFC = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>('')
