@@ -21,7 +21,6 @@ import styles from './styles/styles'
 
 import {
   IError,
-  IItemProps,
   IVacancy,
 } from './models/models'
 
@@ -163,7 +162,7 @@ const App: React.SFC = (): JSX.Element => {
                 ItemSeparatorComponent={ItemSeparator}
                 data={vacancyList}
                 renderItem={
-                  ({item}: {item: IItemProps}) => (
+                  ({item}: {item: IVacancy}) => (
                     <Item
                       name={item.name}
                       company={item.company}
@@ -171,7 +170,7 @@ const App: React.SFC = (): JSX.Element => {
                       imageUrl={item.imageUrl}
                     />
                 )}
-                keyExtractor={item => item.id}
+                keyExtractor={(item: IVacancy) => item.id}
                 onEndReached={(): void => setCurrentPage(currentPage + 1)}
                 onRefresh={onRefresh(searchValue)}
                 refreshing={isRefreshing}
