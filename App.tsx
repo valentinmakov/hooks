@@ -6,6 +6,8 @@ import React,
 
 import {
   FlatList,
+  Image,
+  ImageStyle,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -20,12 +22,14 @@ interface IVacancy {
   name: string,
   company?: string,
   city?: string,
+  imageUrl?: string,
 }
 
 interface IItemProps {
   name: string,
   company?: string,
   city?: string,
+  imageUrl?: string,
 }
 
 interface IErrorProps {
@@ -41,11 +45,13 @@ interface IError {
 interface IStyles {
   safeAreaContainer: ViewStyle,
   container: ViewStyle,
+  descriptionContainer: ViewStyle,
   centeredContainer: ViewStyle,
   textInput: ViewStyle,
   button: ViewStyle,
   itemContainer: ViewStyle,
   separator: ViewStyle,
+  image: ImageStyle,
 }
 
 const queryUrl: string = 'https://api.hh.ru/vacancies?text='
@@ -53,15 +59,28 @@ const queryUrl: string = 'https://api.hh.ru/vacancies?text='
 const Item: React.SFC<IItemProps> = (props: IItemProps): JSX.Element => {
   return (
     <View style={styles.itemContainer}>
-      <Text>{props.name}</Text>
+      <View style={styles.descriptionContainer}>
+        <Text>{props.name}</Text>
+        {
+          props.company
+            ? <Text>{`Employer: ${props.company}`}</Text>
+            : null
+        }
+        {
+          props.city
+            ? <Text>{`City: ${props.city}`}</Text>
+            : null
+        }
+      </View>
       {
-        props.company
-          ? <Text>{`Employer: ${props.company}`}</Text>
-          : null
-      }
-      {
-        props.city
-          ? <Text>{`City: ${props.city}`}</Text>
+        props.imageUrl
+          ? <View>
+            <Image
+              source={{uri: props.imageUrl}}
+              style={styles.image}
+              resizeMode={'contain'}
+            />
+          </View>
           : null
       }
     </View>
@@ -123,6 +142,7 @@ const App: React.SFC = (): JSX.Element => {
                   name: item.name,
                   company: item?.employer?.name,
                   city: item?.area?.name,
+                  imageUrl: item?.employer?.logo_urls?.original,
                 }
               })
               .filter((vacancy: IVacancy): boolean => {
@@ -222,6 +242,7 @@ const App: React.SFC = (): JSX.Element => {
                       name={item.name}
                       company={item.company}
                       city={item.city}
+                      imageUrl={item.imageUrl}
                     />
                 )}
                 keyExtractor={item => item.id}
@@ -246,6 +267,9 @@ const styles: IStyles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
   },
+  descriptionContainer: {
+    flex: 1,
+  },
   centeredContainer: {
     width: '100%',
     alignItems: 'center',
@@ -268,11 +292,18 @@ const styles: IStyles = StyleSheet.create({
   },
   itemContainer: {
     paddingVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   separator: {
     width: '100%',
     height: 1,
     backgroundColor: 'black',
+  },
+  image: {
+    width: 40,
+    height: 40,
+    marginHorizontal: 10,
   },
 })
 
