@@ -73,6 +73,8 @@ const App: React.SFC = (): JSX.Element => {
 
   const [currentPage, setCurrentPage] = useState<number>(0)
 
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+
   useEffect(
     (): void => {
       if (submitSearchValue.length > 0) {
@@ -100,6 +102,10 @@ const App: React.SFC = (): JSX.Element => {
                 })
               })
 
+              if (isRefreshing) {
+                setIsRefreshing(false)
+              }
+
               setVacancyList([...vacancyList, ...itemList])
             }
           })
@@ -123,6 +129,12 @@ const App: React.SFC = (): JSX.Element => {
   }
 
   const onSearchButtonPressed = (searchText: string): (() => void) => () => {
+    resetResultState()
+    setSubmitSearchValue(searchText)
+  }
+
+  const onRefresh = (searchText: string): (() => void) => () => {
+    setIsRefreshing(true)
     resetResultState()
     setSubmitSearchValue(searchText)
   }
@@ -163,6 +175,8 @@ const App: React.SFC = (): JSX.Element => {
           )}
           keyExtractor={item => item.id}
           onEndReached={(): void => setCurrentPage(currentPage + 1)}
+          onRefresh={onRefresh(searchValue)}
+          refreshing={isRefreshing}
         />
       </View>
     </SafeAreaView>
