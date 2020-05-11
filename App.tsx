@@ -84,6 +84,11 @@ const App: React.SFC = (): JSX.Element => {
                   city: item?.area?.name,
                 }
               })
+              .filter((vacancy: IVacancy): boolean => {
+                return !vacancyList.some((vacancyListItem: IVacancy): boolean => {
+                  return vacancy.id === vacancyListItem.id
+                })
+              })
 
               setVacancyList(itemList)
             }
