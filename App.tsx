@@ -108,6 +108,25 @@ const App: React.SFC = (): JSX.Element => {
     [submitSearchValue, currentPage]
   )
 
+  const resetResultState = (): void => {
+    if (vacancyList.length > 0) {
+      setVacancyList([])
+    }
+
+    if (pageTotalCount !== 0) {
+      setPageTotalCount(0)
+    }
+
+    if (currentPage !== 0) {
+      setCurrentPage(0)
+    }
+  }
+
+  const onSearchButtonPressed = (searchText: string): (() => void) => () => {
+    resetResultState()
+    setSubmitSearchValue(searchText)
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
@@ -126,7 +145,7 @@ const App: React.SFC = (): JSX.Element => {
         <View style={styles.centeredContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => setSubmitSearchValue(searchValue)}
+            onPress={onSearchButtonPressed(searchValue)}
           >
             <Text>Submit search value</Text>
           </TouchableOpacity>
