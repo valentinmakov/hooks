@@ -28,6 +28,16 @@ interface IItemProps {
   city?: string,
 }
 
+interface IErrorProps {
+  code: string,
+  message: string,
+}
+
+interface IError {
+  code: string,
+  message: string,
+}
+
 interface IStyles {
   safeAreaContainer: ViewStyle,
   container: ViewStyle,
@@ -62,6 +72,16 @@ const ItemSeparator: React.SFC = (): JSX.Element => {
   return <View style={styles.separator}/>
 }
 
+const Error: React.SFC<IErrorProps> = (props: IErrorProps): JSX.Element => {
+  return (
+    <View>
+      <Text>Error</Text>
+      <Text>{`Code: ${props.code}`}</Text>
+      <Text>{`Message: ${props.message}`}</Text>
+    </View>
+  )
+}
+
 const App: React.SFC = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>('')
 
@@ -75,6 +95,8 @@ const App: React.SFC = (): JSX.Element => {
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
+  const [error, setError] = useState<IError | null>(null)
+
   useEffect(
     (): void => {
       if (submitSearchValue.length > 0) {
@@ -83,6 +105,10 @@ const App: React.SFC = (): JSX.Element => {
         fetch(`${queryUrl}${submitSearchValue}${pageParam}`)
           .then((response: Response): Promise<any> => response.json())
           .then((data: any): void => {
+            if (error !== null) {
+              setError(null)
+            }
+
             if (data && data.items && Array.isArray(data.items)) {
               if (pageTotalCount === 0 && data.pages && typeof data.pages === 'number') {
                 setPageTotalCount(data.pages)
@@ -107,7 +133,20 @@ const App: React.SFC = (): JSX.Element => {
               }
 
               setVacancyList([...vacancyList, ...itemList])
+            } else {
+              setError({
+                code: 'Unknown',
+                message: 'No data',
+              })
             }
+          })
+          .catch((e: any) => {
+            const formattedError: IError = {
+              code: e.code ? e.code : 'Unknown',
+              message: e.message ? e.message : 'Unknown error',
+            }
+
+            setError(formattedError)
           })
       }
     },
@@ -162,22 +201,28 @@ const App: React.SFC = (): JSX.Element => {
             <Text>Submit search value</Text>
           </TouchableOpacity>
         </View>
-        <FlatList
-          ItemSeparatorComponent={ItemSeparator}
-          data={vacancyList}
-          renderItem={
-            ({item}) => (
-              <Item
-                name={item.name}
-                company={item.company}
-                city={item.city}
+        {
+          error === null
+            ? vacancyList.length === 0
+              ? <Text>Nothing to show</Text>
+              : <FlatList
+                ItemSeparatorComponent={ItemSeparator}
+                data={vacancyList}
+                renderItem={
+                  ({item}) => (
+                    <Item
+                      name={item.name}
+                      company={item.company}
+                      city={item.city}
+                    />
+                )}
+                keyExtractor={item => item.id}
+                onEndReached={(): void => setCurrentPage(currentPage + 1)}
+                onRefresh={onRefresh(searchValue)}
+                refreshing={isRefreshing}
               />
-          )}
-          keyExtractor={item => item.id}
-          onEndReached={(): void => setCurrentPage(currentPage + 1)}
-          onRefresh={onRefresh(searchValue)}
-          refreshing={isRefreshing}
-        />
+            : <Error code={error.code} message={error.message}/>
+        }
       </View>
     </SafeAreaView>
   )
