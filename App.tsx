@@ -69,13 +69,23 @@ const App: React.SFC = (): JSX.Element => {
 
   const [vacancyList, setVacancyList] = useState<IVacancy[]>([])
 
+  const [pageTotalCount, setPageTotalCount] = useState<number>(0)
+
+  const [currentPage, setCurrentPage] = useState<number>(0)
+
   useEffect(
     (): void => {
       if (submitSearchValue.length > 0) {
-        fetch(`${queryUrl}${submitSearchValue}`)
+        const pageParam: string = currentPage === 0 || currentPage >= pageTotalCount ? '' : `&page=${currentPage}`
+
+        fetch(`${queryUrl}${submitSearchValue}${pageParam}`)
           .then((response: Response): Promise<any> => response.json())
           .then((data: any): void => {
             if (data && data.items && Array.isArray(data.items)) {
+              if (pageTotalCount === 0 && data.pages && typeof data.pages === 'number') {
+                setPageTotalCount(data.pages)
+              }
+
               const itemList: IVacancy[] = data.items.map((item: any): IVacancy => {
                 return {
                   id: item.id,
@@ -90,12 +100,12 @@ const App: React.SFC = (): JSX.Element => {
                 })
               })
 
-              setVacancyList(itemList)
+              setVacancyList([...vacancyList, ...itemList])
             }
           })
       }
     },
-    [submitSearchValue]
+    [submitSearchValue, currentPage]
   )
 
   return (
@@ -133,6 +143,7 @@ const App: React.SFC = (): JSX.Element => {
               />
           )}
           keyExtractor={item => item.id}
+          onEndReached={(): void => setCurrentPage(currentPage + 1)}
         />
       </View>
     </SafeAreaView>
